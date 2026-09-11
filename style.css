@@ -1,0 +1,239 @@
+:root {
+  --pink-hot: #ff2fa8;
+  --pink-mid: #ff6fc4;
+  --pink-light: #ffc2e8;
+  --pink-pale: #ffe9f6;
+  --pink-deep: #b8006b;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #0c0316;
+  color: #fff;
+  font-family: 'Pacifico', cursive;
+  overflow: hidden;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 5vh;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 20%, #ff5cc0 0%, #c4149a 25%, #6b1259 50%, #2a0a30 75%, #0c0316 100%);
+}
+
+.disco-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sparkles {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, #fff 1.5px, transparent 1.6px),
+    radial-gradient(circle, #fff 1px, transparent 1.1px),
+    radial-gradient(circle, #fff 2px, transparent 2.1px);
+  background-size: 140px 140px, 90px 90px, 220px 220px;
+  background-position: 10px 20px, 60px 120px, 30px 200px;
+  opacity: 0.55;
+  animation: twinkle 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.25; }
+  to   { opacity: 0.65; }
+}
+
+.title {
+  position: relative;
+  z-index: 2;
+  font-family: 'Bungee', cursive;
+  text-align: center;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.title .line1,
+.title .line2 {
+  display: block;
+  font-size: clamp(26px, 6.4vw, 52px);
+  color: #fff;
+  -webkit-text-stroke: 1.5px var(--pink-deep);
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.8),
+    0 0 22px var(--pink-hot),
+    0 4px 0 var(--pink-deep);
+}
+
+.title .line2 {
+  color: #fffbe6;
+  font-size: clamp(20px, 4.9vw, 40px);
+}
+
+/* ---------- VIDEO STAGE ---------- */
+
+.video-stage {
+  position: relative;
+  z-index: 2;
+  margin-top: 2.5vh;
+  width: min(300px, 78vw);
+  aspect-ratio: 9 / 16;
+  border-radius: 18px;
+  overflow: hidden;
+  perspective: 1200px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+}
+
+.dance-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  mask-image: radial-gradient(ellipse 72% 68% at 50% 42%, black 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 42%, black 55%, transparent 100%);
+}
+
+.fold-half {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+  z-index: 3;
+  backface-visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 144% 68% at 50% 42%, black 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 144% 68% at 50% 42%, black 55%, transparent 100%);
+}
+
+.fold-left {
+  left: 0;
+  background-position: left top;
+  transform-origin: 0% 50%;
+  mask-position: left top;
+  -webkit-mask-position: left top;
+}
+
+.fold-right {
+  right: 0;
+  background-position: right top;
+  transform-origin: 100% 50%;
+  mask-position: right top;
+  -webkit-mask-position: right top;
+}
+
+#videoStage.opened .fold-left,
+#videoStage.opened .fold-right {
+  opacity: 1;
+}
+
+#videoStage.opened .fold-left  { animation: foldOpenLeft 0.85s ease-in forwards; }
+#videoStage.opened .fold-right { animation: foldOpenRight 0.85s ease-in forwards; }
+
+@keyframes foldOpenLeft {
+  0%   { transform: rotateY(0deg) translateZ(0); opacity: 1; }
+  100% { transform: rotateY(-105deg) translateZ(-60px); opacity: 0; }
+}
+
+@keyframes foldOpenRight {
+  0%   { transform: rotateY(0deg) translateZ(0); opacity: 1; }
+  100% { transform: rotateY(105deg) translateZ(-60px); opacity: 0; }
+}
+
+.invite-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0;
+  z-index: 1;
+  width: 82%;
+  max-width: 280px;
+  text-align: center;
+  background: rgba(255,255,255,0.97);
+  color: var(--pink-deep);
+  border-radius: 24px;
+  padding: 28px 22px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  pointer-events: none;
+  transition: opacity 0.6s ease 0.5s, transform 0.6s cubic-bezier(.34,1.56,.64,1) 0.5s;
+}
+
+#videoStage.opened .invite-card {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+@media (max-width: 640px) {
+  .video-stage {
+    width: min(94vw, calc(76vh * 9 / 16));
+    border-radius: 10px;
+  }
+
+  .dance-video,
+  .fold-half {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
+.eyebrow {
+  font-family: 'Bungee', cursive;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--pink-hot);
+  margin: 0 0 8px;
+}
+
+.invite-card h2 {
+  font-family: 'Bungee', cursive;
+  font-size: clamp(24px, 5.5vw, 34px);
+  margin: 0 0 10px;
+  color: var(--pink-deep);
+}
+
+.invite-card .sub {
+  margin: 0 0 20px;
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+.rsvp-btn {
+  display: inline-block;
+  font-family: 'Bungee', cursive;
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+  padding: 14px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(255, 47, 168, 0.5);
+  transition: transform 0.15s ease;
+}
+
+.rsvp-btn:hover { transform: translateY(-2px) scale(1.03); }
+
+.fineprint {
+  margin: 14px 0 0;
+  font-size: 11px;
+  opacity: 0.55;
+}
