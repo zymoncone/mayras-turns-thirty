@@ -3,7 +3,7 @@ const video = document.getElementById('danceVideo');
 const foldLeft = document.getElementById('foldLeft');
 const foldRight = document.getElementById('foldRight');
 
-const CLAP_TIME = 8;
+const CLAP_TIME = 8.3;
 let opened = false;
 
 video.play().catch(() => {});
