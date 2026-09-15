@@ -26,30 +26,28 @@
     <span class="line2">WANNA HAVE FUN</span>
   </h1>
 
-  <button type="button" class="sound-toggle" id="soundHint" aria-label="Tap for sound">
-    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M11 5 6 9H3v6h3l5 4V5Z"/>
-      <line x1="23" y1="9" x2="17" y2="15"/>
-      <line x1="17" y1="9" x2="23" y2="15"/>
-    </svg>
-  </button>
+  <div class="stage-wrapper" id="stageWrapper">
+    <div class="start-screen" id="startScreen">
+      <button type="button" class="start-btn" id="startBtn">Let's Get This Party Started</button>
+    </div>
 
-  <div class="video-stage" id="videoStage">
-    <video id="danceVideo" class="dance-video" src="assets/dance.mp4" muted autoplay playsinline preload="auto"></video>
-    <div class="fold-half fold-left" id="foldLeft"></div>
-    <div class="fold-half fold-right" id="foldRight"></div>
+    <div class="video-stage" id="videoStage" hidden>
+      <video id="danceVideo" class="dance-video" src="assets/dance.mp4" muted playsinline preload="auto"></video>
+      <div class="fold-half fold-left" id="foldLeft"></div>
+      <div class="fold-half fold-right" id="foldRight"></div>
 
-    <div class="invite-card">
-      <p class="eyebrow">the party is calling</p>
-      <h2>You're Invited</h2>
-      <p class="sub">Come dance it out with us.</p>
-      <a id="partifulBtn" class="rsvp-btn" href="https://partiful.com/e/6chLskJhRho9TYkBhYcZ?np" target="_blank" rel="noopener">RSVP on Partiful</a>
-      <p class="fineprint">tap to see the details</p>
+      <div class="invite-card">
+        <p class="eyebrow">the party is calling</p>
+        <h2>You're Invited</h2>
+        <p class="sub">Come dance it out with us.</p>
+        <a id="partifulBtn" class="rsvp-btn" href="https://partiful.com/e/6chLskJhRho9TYkBhYcZ?np" target="_blank" rel="noopener">RSVP on Partiful</a>
+        <p class="fineprint">tap to see the details</p>
+      </div>
     </div>
   </div>
 </section>
 
-<audio id="themeSong" src="https://pub-2d22e9dacdc4418c9e97299a39f28c85.r2.dev/theme_song.mp3" muted autoplay preload="auto"></audio>
+<audio id="themeSong" src="https://pub-2d22e9dacdc4418c9e97299a39f28c85.r2.dev/theme_song.mp3" preload="auto"></audio>
 <script src="script.js"></script>
 </body>
 </html>

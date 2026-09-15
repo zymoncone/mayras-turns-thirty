@@ -1,15 +1,16 @@
 const stage = document.getElementById('videoStage');
 const video = document.getElementById('danceVideo');
 const theme = document.getElementById('themeSong');
-const soundHint = document.getElementById('soundHint');
+const startScreen = document.getElementById('startScreen');
+const startBtn = document.getElementById('startBtn');
 const foldLeft = document.getElementById('foldLeft');
 const foldRight = document.getElementById('foldRight');
 const fireworksCanvas = document.getElementById('fireworks');
 const fx = fireworksCanvas.getContext('2d');
 
 const CLAP_TIME = 8.3;
-const pageLoadTime = performance.now();
 let opened = false;
+let partyStarted = false;
 
 const FIREWORK_COLORS = ['#ff2fa8', '#ff8ad4', '#ffd166', '#ffffff', '#c77dff', '#ff6fc4'];
 const ROCKET_GRAVITY = 0.05;
@@ -135,29 +136,44 @@ function startFireworks() {
   requestAnimationFrame(stepFireworks);
 }
 
-video.play().catch(() => {});
-theme.play().catch(() => {});
-
 document.addEventListener('visibilitychange', () => {
+  if (!partyStarted) return;
   if (document.hidden) {
     theme.pause();
-  } else if (!theme.muted) {
+  } else {
     theme.play().catch(() => {});
   }
 });
 
-document.addEventListener(
-  'pointerdown',
+startBtn.addEventListener(
+  'click',
   () => {
-    const elapsed = (performance.now() - pageLoadTime) / 1000;
-    if (theme.duration && isFinite(theme.duration)) {
-      theme.currentTime = elapsed % theme.duration;
-    } else {
-      theme.currentTime = elapsed;
+    partyStarted = true;
+    startScreen.classList.add('hidden');
+    stage.hidden = false;
+
+    const THEME_START_OFFSET = 2; // skip the silent lead-in on the track
+
+    let audioStarted = false;
+    function startAudioWithVideo() {
+      if (audioStarted) return;
+      audioStarted = true;
+      theme.currentTime = THEME_START_OFFSET;
+      theme.play().catch(() => {});
     }
-    theme.muted = false;
-    theme.play().catch(() => {});
-    soundHint.classList.add('hidden');
+
+    // Wait for the video's real "playing" event (frames actually
+    // rendering) before starting the song, so the small streamed
+    // audio file can't get a head start on the larger local video.
+    video.addEventListener('playing', startAudioWithVideo, { once: true });
+    video.play().catch(() => {
+      video.addEventListener('canplay', () => video.play().catch(() => {}), { once: true });
+    });
+
+    // Safety net in case the "playing" event never fires.
+    setTimeout(startAudioWithVideo, 1200);
+
+    setTimeout(openReveal, 9500);
   },
   { once: true }
 );
@@ -198,5 +214,3 @@ video.addEventListener('timeupdate', () => {
 });
 
 video.addEventListener('ended', openReveal);
-
-setTimeout(openReveal, 9500);
