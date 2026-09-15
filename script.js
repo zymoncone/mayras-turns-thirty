@@ -1,6 +1,7 @@
 const stage = document.getElementById('videoStage');
 const video = document.getElementById('danceVideo');
 const theme = document.getElementById('themeSong');
+const soundHint = document.getElementById('soundHint');
 const foldLeft = document.getElementById('foldLeft');
 const foldRight = document.getElementById('foldRight');
 
@@ -13,7 +14,9 @@ theme.play().catch(() => {});
 document.addEventListener(
   'pointerdown',
   () => {
-    if (theme.muted) theme.muted = false;
+    theme.muted = false;
+    theme.play().catch(() => {});
+    soundHint.classList.add('hidden');
   },
   { once: true }
 );
