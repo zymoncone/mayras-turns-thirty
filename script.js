@@ -1,5 +1,6 @@
 const stage = document.getElementById('videoStage');
 const video = document.getElementById('danceVideo');
+const theme = document.getElementById('themeSong');
 const foldLeft = document.getElementById('foldLeft');
 const foldRight = document.getElementById('foldRight');
 
@@ -7,11 +8,12 @@ const CLAP_TIME = 8.3;
 let opened = false;
 
 video.play().catch(() => {});
+theme.play().catch(() => {});
 
 document.addEventListener(
   'pointerdown',
   () => {
-    if (video.muted) video.muted = false;
+    if (theme.muted) theme.muted = false;
   },
   { once: true }
 );
