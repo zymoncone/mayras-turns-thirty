@@ -138,6 +138,14 @@ function startFireworks() {
 video.play().catch(() => {});
 theme.play().catch(() => {});
 
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    theme.pause();
+  } else if (!theme.muted) {
+    theme.play().catch(() => {});
+  }
+});
+
 document.addEventListener(
   'pointerdown',
   () => {
