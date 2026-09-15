@@ -8,6 +8,7 @@ const fireworksCanvas = document.getElementById('fireworks');
 const fx = fireworksCanvas.getContext('2d');
 
 const CLAP_TIME = 8.3;
+const pageLoadTime = performance.now();
 let opened = false;
 
 const FIREWORK_COLORS = ['#ff2fa8', '#ff8ad4', '#ffd166', '#ffffff', '#c77dff', '#ff6fc4'];
@@ -140,6 +141,12 @@ theme.play().catch(() => {});
 document.addEventListener(
   'pointerdown',
   () => {
+    const elapsed = (performance.now() - pageLoadTime) / 1000;
+    if (theme.duration && isFinite(theme.duration)) {
+      theme.currentTime = elapsed % theme.duration;
+    } else {
+      theme.currentTime = elapsed;
+    }
     theme.muted = false;
     theme.play().catch(() => {});
     soundHint.classList.add('hidden');
